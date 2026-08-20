@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1e242b">
 <title>인생계획</title>
-<link rel="manifest" href="manifest.webmanifest?v=0230005c">
+<link rel="manifest" href="manifest.webmanifest?v=19791c60">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인생계획">
-<link rel="apple-touch-icon" href="icon-192.png?v=0230005c">
-<link rel="icon" href="icon-192.png?v=0230005c">
+<link rel="apple-touch-icon" href="icon-192.png?v=19791c60">
+<link rel="icon" href="icon-192.png?v=19791c60">
 <script>if("serviceWorker" in navigator)addEventListener("load",function(){
   /* 캐시가 '있으면 그것부터' 라서, 새 빌드를 올려도 서비스워커가 바뀌는 그 한 번은
      옛 화면이 그려진다. 새 워커가 자리를 잡는 순간 딱 한 번 다시 그려 준다. */
@@ -17,10 +17,10 @@
   navigator.serviceWorker.addEventListener("controllerchange", function(){
     if (had && !once){ once = true; location.reload(); }
   });
-  navigator.serviceWorker.register("sw.js?v=0230005c").catch(function(){});});</script>
+  navigator.serviceWorker.register("sw.js?v=19791c60").catch(function(){});});</script>
 <style>
-@font-face{font-family:'PlanHead';src:url(font-head.woff2?v=0230005c) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
-@font-face{font-family:'PlanHand';src:url(font-hand.woff2?v=0230005c) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'PlanHead';src:url(font-head.woff2?v=19791c60) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'PlanHand';src:url(font-hand.woff2?v=19791c60) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
 
 /* ── 색·간격 토큰 ──────────────────────────────────────────
    화면 크롬은 흑연색으로 눌러 두고, 진한 색은 **분류·활동 색에만** 쓴다.
@@ -179,14 +179,17 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 .fl.bare i{ display:none; }
 
 /* 머리 두 줄 — 날짜·D-DAY / COMMENT·TOTAL TIME */
-.fgrid{ display:grid; grid-template-columns:1fr 1fr; gap:0 14px; }
-.fc{ padding-bottom:8px; min-width:0; }
-.fc.rule{ border-bottom:1px solid var(--ln); margin-bottom:14px; padding-bottom:5px; }
+.fgrid{ display:grid; grid-template-columns:1.3fr 1fr; gap:0 13px; }
+/* 두 띠(날짜 / 코멘트)의 높이와 간격을 같게 둔다 — 속지가 그렇다 */
+.fc{ min-width:0; display:flex; flex-direction:column; justify-content:space-between;
+  min-height:52px; padding-bottom:6px; margin-bottom:12px; }
+.fc.rule{ border-bottom:1px solid var(--ln); }
 .fv{ display:block; width:100%; min-height:22px; border:0; background:none; padding:0;
   outline:none; color:var(--ink); font-family:var(--hand); font-size:15px; }
-.fv.big{ font-family:var(--head); font-size:26px; line-height:1.15; letter-spacing:-.01em;
-  font-variant-numeric:tabular-nums; }
-.fv.big small,.fv.dd small{ display:block; font-family:var(--head); font-size:11px;
+/* 260820 목요일 — 한 줄로, 칸 너비를 꽉 채우게 */
+.fv.big{ font-family:var(--head); font-size:clamp(19px, 6.4vw, 30px); line-height:1.1;
+  letter-spacing:-.02em; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.fv.dd small{ display:block; font-family:var(--head); font-size:11px;
   color:var(--dim); letter-spacing:0; line-height:1.4; }
 .fv.dd{ font-family:var(--head); font-size:21px; line-height:1.15; color:var(--sun);
   text-align:right; font-variant-numeric:tabular-nums; }
@@ -203,7 +206,7 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 /* TASKS 와 TIMETABLE — 속지처럼 좌우 2단 */
 .cols{ display:grid; grid-template-columns:minmax(0,1fr) 112px; gap:9px;
   align-items:start; }
-@media (min-width:560px){ .cols{ grid-template-columns:minmax(0,1fr) 176px; gap:16px; } }
+@media (min-width:560px){ .cols{ grid-template-columns:minmax(0,1fr) 150px; gap:16px; } }
 .cols .lt{ min-width:0; }
 
 /* 할 일 표 — 과목칸 │ 본문 │ 체크칸, 가로 괘선 */
@@ -217,12 +220,14 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 .frow .r{ border-left:1px solid var(--ln); justify-content:center; gap:1px; }
 .frow.blank{ cursor:text; }
 .frow.blank:active{ background:var(--bg); }
-.frow .chip{ flex:0 0 auto; width:9px; height:9px; border-radius:2px; border:0; padding:0;
-  cursor:pointer; background:var(--c); }
-.frow input.t{ flex:1; min-width:0; border:0; background:none; color:var(--ink);
-  font-size:13.5px; padding:2px 0; outline:none; }
-.frow.st1 input.t{ color:var(--dim); text-decoration:line-through; }
-.frow.st2 input.t{ color:var(--dim); }
+.frow .ttl{ flex:1; min-width:0; display:flex; align-items:center; gap:4px;
+  border:0; background:none; padding:2px 0; cursor:pointer; text-align:left;
+  color:var(--ink); font-size:13.5px; white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis; }
+.frow .ttl .md{ flex:0 0 auto; width:4px; height:4px; border-radius:50%;
+  background:var(--dim); opacity:.55; }
+.frow.st1 .ttl{ color:var(--dim); text-decoration:line-through; }
+.frow.st2 .ttl{ color:var(--dim); }
 .frow .run,.frow .mk{ flex:0 0 auto; background:none; border:0; cursor:pointer;
   color:var(--dim); opacity:.4; line-height:1; font-family:var(--head); }
 .frow .run{ font-size:10px; padding:3px 2px; }
@@ -235,11 +240,11 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 /* 타임테이블 — 속지의 모눈 그대로, 칠한 칸이 히트맵이 된다 */
 .tt{ touch-action:none; user-select:none; -webkit-user-select:none; }
 .hm .ttr{ display:flex; align-items:stretch; gap:3px; }
-.hm .hr{ flex:0 0 12px; text-align:right; font-size:9px; color:var(--dim); line-height:14px;
-  font-variant-numeric:tabular-nums; }
+.hm .hr{ flex:0 0 12px; display:flex; align-items:center; justify-content:flex-end;
+  font-size:9px; color:var(--dim); font-variant-numeric:tabular-nums; }
 .hm .cells{ flex:1; min-width:0; display:grid; grid-template-columns:repeat(6,1fr);
   border-left:1px solid var(--ln); }
-.hm .cells i{ height:13px; border-right:1px solid var(--ln);
+.hm .cells i{ aspect-ratio:1; border-right:1px solid var(--ln);
   border-bottom:1px solid var(--ln); }
 .hm .ttr.hd .cells{ border-left:0; }
 .hm .ttr.hd .cells i{ border:0; height:auto; font-style:normal; font-size:8px;
@@ -250,21 +255,18 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 .hm .ttr.dawn .hr{ opacity:.55; }
 .hm .cells i.on{ background:var(--c); }
 @media (min-width:560px){
-  .hm .cells i{ height:17px; }
-  .hm .hr{ font-size:11px; line-height:18px; flex:0 0 15px; }
+  .hm .hr{ font-size:11px; flex:0 0 15px; }
   .hm .ttr.hd .cells i{ font-size:10px; }
 }
 
-/* 활동 고르기 (손으로 칠할 때 · 타이머 시작) */
-.acts{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin:14px 0 2px; }
-.acts button{ display:flex; align-items:center; gap:6px; border:1px solid var(--line);
-  background:var(--card); color:var(--dim); border-radius:99px; padding:6px 12px 6px 9px;
-  font:inherit; font-size:12.5px; cursor:pointer; }
-.acts button.on{ border-color:var(--c); color:var(--ink);
-  background:color-mix(in oklab, var(--c) 12%, var(--card)); }
-.acts button .dot{ width:9px; height:9px; border-radius:3px; }
-.acts .er.on{ border-color:var(--dim); background:var(--bg); }
-.acts .go{ margin-left:auto; border-color:var(--accent); color:var(--accent); }
+/* 칠할 색 고르기 — 활동 이름표는 할 일 팝업으로 갔고, 여기는 색만 남는다 */
+.pal{ display:flex; gap:4px; justify-content:flex-end; margin-top:6px; }
+.pal button{ width:16px; height:16px; padding:0; border-radius:4px; cursor:pointer;
+  border:1px solid transparent; background:var(--c); opacity:.45; }
+.pal button.on{ opacity:1; border-color:var(--ink); }
+.pal .er{ background:none; border-color:var(--ln); color:var(--dim); font:inherit;
+  font-size:11px; line-height:1; opacity:1; }
+.pal .er.on{ border-color:var(--ink); color:var(--ink); }
 
 textarea.memo{ width:100%; margin-top:2px; min-height:84px; resize:vertical; border:0;
   background:repeating-linear-gradient(var(--paper) 0 27px, var(--ln) 27px 28px);
@@ -594,9 +596,16 @@ function taskSt(t) {
 }
 function taskAdd(k, act) {
   var d = day(k);
-  var t = { id: uid(), t: "", act: act || "civil", st: 0,
+  var t = { id: uid(), t: "", act: act || "civil", m: "", st: 0,
             ord: d.tasks.length + 1, upd: now() };
   d.tasks.push(t); touch(); return t;
+}
+/* 팝업에서 넣고 고친다 — 새 줄이면 만들고, 있으면 그 줄을 고친다 */
+function taskSave(k, o) {
+  if (o.id) { taskSet(k, o.id, { t: o.t, act: o.act, m: o.m }); return o.id; }
+  var t = taskAdd(k, o.act);
+  taskSet(k, t.id, { t: o.t, m: o.m });
+  return t.id;
 }
 /* 종이 양식처럼 활동별로 묶는다 (한국사·국어·영어… 자리에 운동·토목·영어) */
 function taskGroups(k) {
@@ -948,6 +957,53 @@ function popDay(date) {
     });
 }
 
+/* ── 할 일 하나 넣기·고치기 ─────────────────────────────
+   속지의 좁은 칸에 직접 적게 하면 폰에서 글자가 잘리고 메모를 쓸 자리가 없다.
+   줄을 누르면 이 팝업이 떠서 **활동 · 할 일 · 메모**를 한자리에서 적는다. */
+function popTask(k, x) {
+  var t = x ? JSON.parse(JSON.stringify(x)) : {};
+  var isNew = !t.id;
+  t.act = t.act || (typeof curAct !== "undefined" && curAct !== "erase" ? curAct : "civil");
+  var chips = ACTS.map(function (a) {
+    return '<button data-k="' + a.k + '" style="--c:' + a.c + '"'
+         + (a.k === t.act ? ' class="on"' : "") + ">"
+         + '<span class="dot" style="background:' + a.c + '"></span>' + a.n + "</button>";
+  }).join("");
+  openPop(
+    "<h3>" + (isNew ? "할 일 추가" : "할 일 고치기") + esc(" · ") + esc(fmtDay(k))
+    + '<button class="x" title="닫기">&times;</button></h3>'
+    + '<label class="row">활동</label><div class="cats">' + chips + "</div>"
+    + '<label class="row">할 일</label>'
+    + '<input type="text" id="tt" class="hand" value="' + esc(t.t || "")
+    + '" placeholder="무엇을" autocomplete="off">'
+    + '<label class="row">메모</label>'
+    + '<textarea id="tm" class="hand" placeholder="어떻게 · 어디까지">'
+    + esc(t.m || "") + "</textarea>"
+    + '<div class="foot"><button class="save" id="ok">저장</button>'
+    + (isNew ? "" : '<button class="del" id="rm">삭제</button>')
+    + '<button id="no">취소</button></div>',
+    function (p) {
+      qa(p, ".cats button").forEach(function (b) {
+        b.onclick = function () {
+          t.act = b.getAttribute("data-k");
+          qa(p, ".cats button").forEach(function (o) { o.classList.remove("on"); });
+          b.classList.add("on");
+        };
+      });
+      q(p, "#no").onclick = closePop;
+      if (!isNew) q(p, "#rm").onclick = function () {
+        taskDel(k, t.id); closePop(); redrawTasks(k); say("지웠습니다", "ok");
+      };
+      q(p, "#ok").onclick = function () {
+        var ttl = q(p, "#tt").value.trim();
+        if (!ttl) { q(p, "#tt").focus(); say("할 일을 적어 주세요", "err"); return; }
+        taskSave(k, { id: t.id, t: ttl, act: t.act, m: q(p, "#tm").value.trim() });
+        closePop(); redrawTasks(k);
+      };
+      setTimeout(function () { q(p, "#tt").focus(); }, 60);
+    });
+}
+
 /* ── 일정 하나 넣기·고치기 ─────────────────────────────── */
 function popEvent(ev) {
   var e = ev ? JSON.parse(JSON.stringify(ev)) : {};
@@ -1195,7 +1251,7 @@ function tile(k, v, sub, hot) {
    TASKS)은 회색이고 뒤로 줄이 이어진다. 표의 선도 모두 회색.
 
      ┌ YEAR / MONTH / DAY ──────  │  D-DAY ─────────────
-     │ 0819 수요일·2026           │  D-52  영어 시험
+     │ 260820 목요일              │  D-52  영어 시험
      ├ COMMENT ─────────────────  │  TOTAL TIME ────────
      │ 오늘 한 줄                 │  6H00M
      └──────────────────────────  └─────────────────────
@@ -1204,7 +1260,8 @@ function tile(k, v, sub, hot) {
        ─────┼────────────────────┼──────│ 5 □□□□□□
                                         │ 6 □□□□□□  …
 
-   빈 줄은 종이처럼 그대로 두고, 누르면 그 자리에 할 일이 생긴다.
+   빈 줄은 종이처럼 그대로 두고, 누르면 **팝업**이 떠서 활동·할 일·메모를 적는다
+   (좁은 칸에 직접 적게 하면 폰에서 글자가 잘리고 메모 자리가 없다).
    타임테이블은 속지처럼 5시에서 시작하고, 칠한 칸이 곧 TOTAL TIME 이다. */
 "use strict";
 
@@ -1229,8 +1286,8 @@ function viewDay(k) {
     /* 머리 — 날짜 / D-DAY */
     + '<div class="fgrid">'
     + '<div class="fc">' + flabel("year / month / day")
-    + '<div class="fv big">' + k.slice(5).replace("-", "")
-    + '<small>' + WD[dow] + "요일 · " + k.slice(0, 4) + "</small></div></div>"
+    + '<div class="fv big">' + k.slice(2).replace(/-/g, "") + " "
+    + WD[dow] + "요일</div></div>"
     + '<div class="fc">' + flabel("d-day")
     + '<div class="fv dd">' + (dd ? (dd.days === 0 ? "D-DAY" : "D-" + dd.days) : "&mdash;")
     + (dd ? "<small>" + esc(dd.n) + "</small>" : "") + "</div></div>"
@@ -1252,12 +1309,9 @@ function viewDay(k) {
     + flabel("tasks", '<span id="tsum">' + taskSum(k) + "</span>")
     + '<div class="cols">'
     + '<div class="lt"><div class="ftable" id="tasks">' + tasksHtml(k) + "</div></div>"
-    + '<div class="rt"><div class="tt hm" id="tt">' + ttHtml(k) + "</div></div>"
+    + '<div class="rt"><div class="tt hm" id="tt">' + ttHtml(k) + "</div>"
+    + '<div class="pal" id="acts">' + palette() + "</div></div>"
     + "</div>"
-
-    /* 손으로 칠할 때 쓰는 활동 · 타이머 시작 */
-    + '<div class="acts" id="acts">' + actChips()
-    + '<button class="go" id="tgo">이 활동으로 시작</button></div>'
 
     + focusHtml(d.focus || 0)
     + flabel("memo")
@@ -1325,10 +1379,9 @@ function tasksHtml(k) {
 function taskRow(x, t, act) {
   var a = actOf(x.act), st = taskSt(x), run = t && t.tid === x.id;
   return '<div class="frow task st' + st + (run ? " run" : "") + '" data-id="' + x.id + '">'
-    + '<span class="g" style="--c:' + a.c + '">' + (act ? esc(act.s || act.n) : "") + "</span>"
-    + '<span class="m">'
-    + '<button class="chip" style="--c:' + a.c + '" title="' + a.n + ' — 눌러 활동 바꾸기"></button>'
-    + '<input class="t hand" value="' + esc(x.t || "") + '" autocomplete="off">'
+    + '<span class="g" style="color:' + a.c + '">' + (act ? esc(act.s || act.n) : "") + "</span>"
+    + '<span class="m"><button class="ttl hand" title="눌러 고치기">' + esc(x.t || "")
+    + (x.m ? '<i class="md" title="메모 있음"></i>' : "") + "</button>"
     + '<button class="run" title="' + (run ? "끝내고 기록" : "이 할 일로 타이머 시작") + '">'
     + (run ? "&#9632;" : "&#9654;") + "</button></span>"
     + '<span class="r"><button class="mk ok" title="했다">&#9711;</button>'
@@ -1354,31 +1407,14 @@ function redrawTasks(k, focusId) {
 function wireTasks(root, k) {
   /* 빈 줄은 종이의 빈 칸이다 — 누르면 그 자리에 한 줄 생긴다 */
   qa(root, "#tasks .frow.blank").forEach(function (el) {
-    el.onclick = function () {
-      var t = taskAdd(k, curAct === "erase" ? "civil" : curAct);
-      redrawTasks(k, t.id);
-    };
+    el.onclick = function () { popTask(k, null); };
   });
   qa(root, "#tasks .frow.task").forEach(function (el) {
     var id = el.getAttribute("data-id");
     var get = function () {
       return tasksOf(k).filter(function (x) { return x.id === id; })[0];
     };
-    q(el, "input.t").oninput = function () {
-      var v = this.value; deb("t" + id, function () { taskSet(k, id, { t: v }); });
-    };
-    /* 비우고 나가면 그 줄은 지운다 (종이처럼 빈 줄로 돌아간다) */
-    q(el, "input.t").onblur = function () {
-      if (this.value.trim()) return;
-      clearTimeout(_deb["t" + id]);
-      taskDel(k, id); redrawTasks(k);
-    };
-    q(el, ".chip").onclick = function () {
-      var x = get(); if (!x) return;
-      var i = ACTS.findIndex(function (a) { return a.k === (x.act || "other"); });
-      taskSet(k, id, { act: ACTS[(i + 1) % ACTS.length].k });
-      redrawTasks(k);
-    };
+    q(el, ".ttl").onclick = function () { popTask(k, get()); };
     q(el, ".mk.ok").onclick = function () { mark(k, id, 1, el); };
     q(el, ".mk.no").onclick = function () { mark(k, id, 2, el); };
     q(el, ".run").onclick = function () {
@@ -1420,13 +1456,13 @@ function wireFocus(app, k) {
 }
 
 /* ── TIMETABLE ────────────────────────────────────────────── */
-function actChips() {
+function palette() {
   return ACTS.map(function (a) {
-    return '<button data-a="' + a.k + '" style="--c:' + a.c + '"'
-         + (a.k === curAct ? ' class="on"' : "") + ">"
-         + '<span class="dot" style="background:' + a.c + '"></span>' + a.n + "</button>";
+    return '<button data-a="' + a.k + '" style="--c:' + a.c + '" title="' + a.n
+         + '으로 칠하기"' + (a.k === curAct ? ' class="on"' : "") + "></button>";
   }).join("")
-  + '<button data-a="erase" class="er' + (curAct === "erase" ? " on" : "") + '">지우개</button>';
+  + '<button data-a="erase" class="er' + (curAct === "erase" ? " on" : "")
+  + '" title="지우기">&times;</button>';
 }
 function wireActs(app, k) {
   qa(app, "#acts button[data-a]").forEach(function (b) {
@@ -1438,11 +1474,6 @@ function wireActs(app, k) {
       });
     };
   });
-  q(app, "#tgo").onclick = function () {
-    if (curAct === "erase") { say("활동을 먼저 고르세요", "err"); return; }
-    if (tState()) { timerStop(); return; }
-    timerStart(curAct, "");
-  };
 }
 function ttHtml(k) {
   var cells = day(k).cells, r, i;
@@ -1701,7 +1732,7 @@ function viewSet() {
     + '<button id="impb">가져오기</button>'
     + '<input type="file" id="imp" accept="application/json,.json" hidden></div>'
     + '<div class="note">가져오기는 <b>덮어쓰지 않고 합칩니다</b> — 같은 것은 새 쪽이 남습니다.'
-    + "<br>빌드 2026-08-20 00:28 UTC · " + esc("0230005c") + "</div></div>";
+    + "<br>빌드 2026-08-20 00:36 UTC · " + esc("19791c60") + "</div></div>";
 
   q(app, "#savetok").onclick = function () {
     var c2 = cfg(); c2.token = q(app, "#tok").value.trim(); setCfg(c2);
