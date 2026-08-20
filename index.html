@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1e242b">
 <title>인생계획</title>
-<link rel="manifest" href="manifest.webmanifest?v=8c831c9b">
+<link rel="manifest" href="manifest.webmanifest?v=c6af15b8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="인생계획">
-<link rel="apple-touch-icon" href="icon-192.png?v=8c831c9b">
-<link rel="icon" href="icon-192.png?v=8c831c9b">
+<link rel="apple-touch-icon" href="icon-192.png?v=c6af15b8">
+<link rel="icon" href="icon-192.png?v=c6af15b8">
 <script>if("serviceWorker" in navigator)addEventListener("load",function(){
   /* 캐시가 '있으면 그것부터' 라서, 새 빌드를 올려도 서비스워커가 바뀌는 그 한 번은
      옛 화면이 그려진다. 새 워커가 자리를 잡는 순간 딱 한 번 다시 그려 준다. */
@@ -17,11 +17,11 @@
   navigator.serviceWorker.addEventListener("controllerchange", function(){
     if (had && !once){ once = true; location.reload(); }
   });
-  navigator.serviceWorker.register("sw.js?v=8c831c9b").catch(function(){});});</script>
+  navigator.serviceWorker.register("sw.js?v=c6af15b8").catch(function(){});});</script>
 <style>
-@font-face{font-family:'PlanUI';src:url(font-ui.woff2?v=8c831c9b) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
-@font-face{font-family:'PlanHead';src:url(font-head.woff2?v=8c831c9b) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
-@font-face{font-family:'PlanHand';src:url(font-hand.woff2?v=8c831c9b) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'PlanUI';src:url(font-ui.woff2?v=c6af15b8) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'PlanHead';src:url(font-head.woff2?v=c6af15b8) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'PlanHand';src:url(font-hand.woff2?v=c6af15b8) format('woff2');font-weight:normal;font-style:normal;font-display:swap;}
 
 /* ── 색·간격 토큰 ──────────────────────────────────────────
    화면 크롬은 흑연색으로 눌러 두고, 진한 색은 **분류·활동 색에만** 쓴다.
@@ -178,8 +178,10 @@ h2 .r{ margin-left:auto; letter-spacing:0; text-transform:none; font-size:12px; 
 .cols .lt,.cols .rt{ min-width:0; }
 
 /* 라벨 — 검정 대문자, 자간은 좁게 */
-.fl{ font-family:var(--ui); font-size:10px; letter-spacing:.03em; text-transform:uppercase;
+.fl{ display:block; width:100%; text-align:left; border:0; background:none; padding:0;
+  font-family:var(--ui); font-size:10px; letter-spacing:.03em; text-transform:uppercase;
   color:var(--ink); height:15px; line-height:15px; white-space:nowrap; }
+button.fl{ cursor:pointer; }
 .fl.r{ text-align:right; }
 .fl2{ display:grid; grid-template-columns:var(--subj) minmax(0,1fr); height:15px;
   font-family:var(--ui); font-size:10px; letter-spacing:.03em; text-transform:uppercase;
@@ -256,16 +258,6 @@ textarea.cmt{ width:100%; min-height:112px; resize:vertical; border:0; backgroun
   border-bottom:var(--w1) solid var(--ink); }
 .hm .cells i.on{ background:var(--w); }
 @media (min-width:560px){ :root{ --row:28px; --hrw:24px; --subj:44px; } }
-
-/* 칠할 색 — 속지에 없는 것이므로 장 밖에 작게 둔다 */
-.pal{ display:flex; gap:4px; align-items:center; justify-content:flex-end; margin:0 0 10px; }
-.pal > span{ margin-right:3px; font-size:10.5px; color:var(--dim); }
-.pal button{ width:17px; height:17px; padding:0; border-radius:3px; cursor:pointer;
-  border:1px solid var(--ln); background:var(--w); opacity:.6; }
-.pal button.on{ opacity:1; border-color:var(--c); box-shadow:0 0 0 1px var(--c) inset; }
-.pal .er{ background:none; border-color:var(--ln); color:var(--dim); font:inherit;
-  font-size:11px; line-height:1; opacity:1; }
-.pal .er.on{ border-color:var(--ink); color:var(--ink); }
 
 /* 팝업 안의 뽀모도로 */
 .pop .tmr{ margin-top:14px; padding-top:12px; border-top:1px solid var(--line); }
@@ -669,32 +661,6 @@ function sesOn(k) {
     .sort(function (a, b) { return a.t - b.t; });
 }
 
-/* ── 목표 (D-DAY) ──────────────────────────────────────── */
-/* 목표는 기기마다 다를 이유가 없으니 문서에 같이 둔다 */
-function goals() {
-  return (D.goal || []).filter(function (g) { return !g.del; })
-    .sort(function (a, b) { return a.d < b.d ? -1 : 1; });
-}
-function goalSave(g) {
-  D.goal = D.goal || [];
-  g.id = g.id || uid(); g.upd = now();
-  var i = D.goal.findIndex(function (x) { return x.id === g.id; });
-  if (i < 0) D.goal.push(g); else D.goal[i] = g;
-  touch();
-}
-function goalDel(id) {
-  D.goal = (D.goal || []).map(function (g) {
-    return g.id === id ? { id: id, del: true, upd: now() } : g;
-  });
-  touch();
-}
-/* 그 날짜에서 가장 가까운 앞날 목표 */
-function ddayOf(k) {
-  var gs = goals().filter(function (g) { return g.d >= k; });
-  if (!gs.length) return null;
-  return { n: gs[0].n, days: diffDays(k, gs[0].d) };
-}
-
 /* ── 합치기 (기기 사이) ────────────────────────────────── */
 /* 돌려주는 수 = **새로 들어온 것의 개수**. 사람에게 "새 기록 n건" 으로 보여 준다. */
 function mergeDoc(inc) {
@@ -715,12 +681,9 @@ function mergeDoc(inc) {
   });
   D.ses.sort(function (a, b) { return a.t - b.t; });
 
-  (inc.goal || []).forEach(function (g) {
-    D.goal = D.goal || [];
-    var i = D.goal.findIndex(function (x) { return x.id === g.id; });
-    if (i < 0) { D.goal.push(g); n++; }
-    else if ((g.upd || 0) > (D.goal[i].upd || 0)) { D.goal[i] = g; n++; }
-  });
+  /* 옛 판이 들고 있던 goal(목표) 은 화면에서 뺐지만 문서에서는 지우지 않는다 —
+     다른 기기의 것을 조용히 날려 버리지 않기 위해 그대로 옮겨 둔다. */
+  if (inc.goal && !D.goal) D.goal = inc.goal;
 
   prune();
   writeDoc();
@@ -964,6 +927,33 @@ function popDay(date) {
       });
       q(p, "#add").onclick = function () { popEvent({ s: date, e: date, cat: "etc" }); };
       q(p, "#sheet").onclick = function () { closePop(); go("d-" + date); };
+    });
+}
+
+/* ── 칠할 색 고르기 (TIMETABLE 라벨에서) ─────────────────── */
+function popColor() {
+  var chips = ACTS.map(function (a) {
+    return '<button data-a="' + a.k + '" style="--c:' + a.c + '"'
+         + (a.k === curAct ? ' class="on"' : "") + ">"
+         + '<span class="dot" style="background:' + a.c + '"></span>' + a.n + "</button>";
+  }).join("")
+    + '<button data-a="erase" style="--c:var(--dim)"'
+    + (curAct === "erase" ? ' class="on"' : "") + ">지우개</button>";
+  openPop(
+    "<h3>칠할 색<button class=\"x\" title=\"닫기\">&times;</button></h3>"
+    + '<div class="cats">' + chips + "</div>"
+    + '<div class="note">타임테이블을 눌러(끌어) 칠합니다. 같은 색 칸을 다시 누르면 지워집니다.'
+    + " 타이머로 잰 시간은 저절로 칠해집니다.</div>",
+    function (p) {
+      qa(p, ".cats button").forEach(function (b) {
+        b.onclick = function () {
+          curAct = b.getAttribute("data-a");
+          localStorage.setItem(AKEY, curAct);
+          closePop();
+          say(curAct === "erase" ? "지우개로 바꿨습니다"
+                                 : actOf(curAct).n + " 색으로 칠합니다", "ok");
+        };
+      });
     });
 }
 
@@ -1311,7 +1301,7 @@ function deb(key, fn, ms) { clearTimeout(_deb[key]); _deb[key] = setTimeout(fn, 
 
 function viewDay(k) {
   var app = document.getElementById("app");
-  var d = day(k), dd = ddayOf(k), dow = dateOf(k).getDay();
+  var d = day(k), dow = dateOf(k).getDay();
   head(fmtDay(k), "달력", "m-" + monthOf(k));
 
   app.innerHTML =
@@ -1321,10 +1311,7 @@ function viewDay(k) {
     + '<div class="lt">'
     + '<div class="fl r">day month year weekday</div><div class="hr2"></div>'
     + '<div class="band"><div class="fv big">' + k.slice(2).replace(/-/g, "") + " "
-    + WD[dow] + "요일</div>"
-    + (dd ? '<div class="dd">' + (dd.days === 0 ? "D-DAY" : "D-" + dd.days)
-            + "<small>" + esc(dd.n) + "</small></div>" : "")
-    + '</div><div class="hr2"></div>'
+    + WD[dow] + "요일</div></div><div class=\"hr2\"></div>"
     + '<div class="fl2"><span class="s">subj.</span><span class="t">tasks</span></div>'
     + '<div class="ftable" id="tasks">' + tasksHtml(k) + "</div>"
     + '<div class="hr2"></div>'
@@ -1342,14 +1329,13 @@ function viewDay(k) {
     + '<div class="ga"><span>achieve:</span>'
     + '<input id="ach" class="hand" value="' + esc(d.ach || "") + '" autocomplete="off"></div>'
     + '</div><div class="hr2"></div>'
-    + '<div class="fl">timetable</div>'
+    + '<button class="fl" id="ttlbl" title="칠할 색 고르기">timetable</button>'
     + '<div class="tt hm" id="tt">' + ttHtml(k) + "</div>"
     + "</div>"
 
     + "</div></div>"
 
-    /* 장 밖 — 칠할 색과 날짜 이동 */
-    + '<div class="pal" id="acts"><span>칠할 색</span>' + palette() + "</div>"
+    /* 장 밖 — 날짜 이동만 (속지에 없는 것은 두지 않는다) */
     + '<div class="tools" style="justify-content:space-between">'
     + '<button id="pd">&#8249; ' + esc(fmtDay(addDays(k, -1)).replace(/ \(.\)$/, "")) + "</button>"
     + '<button id="td">오늘</button>'
@@ -1429,25 +1415,11 @@ function wireTasks(root, k) {
   });
 }
 
-/* ── TIMETABLE ────────────────────────────────────────────── */
-function palette() {
-  return ACTS.map(function (a) {
-    return '<button data-a="' + a.k + '" style="--c:' + a.c + ";--w:" + a.w + '" title="' + a.n
-         + '으로 칠하기"' + (a.k === curAct ? ' class="on"' : "") + "></button>";
-  }).join("")
-  + '<button data-a="erase" class="er' + (curAct === "erase" ? " on" : "")
-  + '" title="지우기">&times;</button>';
-}
+/* ── TIMETABLE ──────────────────────────────────────────────
+   칠할 색은 장 안에 자리를 두지 않는다 — TIMETABLE 라벨을 누르면 팝업으로 고른다. */
 function wireActs(app, k) {
-  qa(app, "#acts button[data-a]").forEach(function (b) {
-    b.onclick = function () {
-      curAct = b.getAttribute("data-a");
-      localStorage.setItem(AKEY, curAct);
-      qa(app, "#acts button[data-a]").forEach(function (o) {
-        o.classList.toggle("on", o.getAttribute("data-a") === curAct);
-      });
-    };
-  });
+  var b = q(app, "#ttlbl");
+  if (b) b.onclick = function () { popColor(); };
 }
 function ttHtml(k) {
   var cells = day(k).cells, out = "", r, i;
@@ -1642,23 +1614,6 @@ function viewSet() {
     + "않습니다. 폰에 넣을 때는 주소 끝에 <b>#t=토큰</b> 을 붙여 한 번 열어도 됩니다."
     + "<br>토큰이 없으면 이 기기에만 쌓입니다.</div></div>"
 
-    + "<h2>목표 (D-DAY)</h2><div class=\"card\">"
-    + (goals().length ? goals().map(function (g) {
-        var n = diffDays(today(), g.d);
-        return '<div class="goal" data-id="' + g.id + '"><span class="hand">' + esc(g.n)
-             + '</span><span class="d">' + esc(g.d) + " · "
-             + (n === 0 ? "D-DAY" : n > 0 ? "D-" + n : "지남") + "</span>"
-             + '<button class="x" title="지우기">&times;</button></div>';
-      }).join("") : '<div class="hint">목표를 넣으면 하루 장에 D-DAY 가 뜹니다</div>')
-    + '<div class="half" style="display:flex;gap:8px;margin-top:11px">'
-    + '<input type="text" id="gn" class="hand" placeholder="목표 이름" '
-    + 'style="flex:1;min-width:0;padding:10px 11px;border-radius:12px;border:1px solid var(--line);'
-    + 'background:var(--bg);color:var(--ink);font-size:15px">'
-    + '<input type="date" id="gd" style="padding:10px 11px;border-radius:12px;'
-    + 'border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit">'
-    + "</div>"
-    + '<div class="tools"><button class="go" id="gadd">목표 추가</button></div></div>'
-
     + "<h2>타이머</h2><div class=\"card\">"
     + '<div class="kv">할 일 줄의 <b>&#9654;</b> 로 시작하고 <b>&#9632;</b> 로 끝냅니다. '
     + "끝내면 그 시간대의 10분 칸이 저절로 칠해집니다.</div>"
@@ -1677,7 +1632,7 @@ function viewSet() {
     + '<button id="impb">가져오기</button>'
     + '<input type="file" id="imp" accept="application/json,.json" hidden></div>'
     + '<div class="note">가져오기는 <b>덮어쓰지 않고 합칩니다</b> — 같은 것은 새 쪽이 남습니다.'
-    + "<br>빌드 2026-08-20 01:10 UTC · " + esc("8c831c9b") + "</div></div>";
+    + "<br>빌드 2026-08-20 01:23 UTC · " + esc("c6af15b8") + "</div></div>";
 
   q(app, "#savetok").onclick = function () {
     var c2 = cfg(); c2.token = q(app, "#tok").value.trim(); setCfg(c2);
@@ -1689,16 +1644,6 @@ function viewSet() {
     b.onclick = function () {
       localStorage.setItem("j0-plan-tmode", b.id === "tm-pomo" ? "pomo" : "free");
       render();
-    };
-  });
-  q(app, "#gadd").onclick = function () {
-    var n = q(app, "#gn").value.trim(), d = q(app, "#gd").value;
-    if (!n || !d) { say("이름과 날짜를 넣으세요", "err"); return; }
-    goalSave({ n: n, d: d }); render(); say("목표를 넣었습니다", "ok");
-  };
-  qa(app, ".goal .x").forEach(function (b) {
-    b.onclick = function () {
-      goalDel(b.parentElement.getAttribute("data-id")); render();
     };
   });
   q(app, "#exp").onclick = function () {
