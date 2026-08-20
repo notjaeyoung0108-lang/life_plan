@@ -1,6 +1,6 @@
 /* 인생계획 — 오프라인 캐시. 빌드가 바뀌면 캐시 이름이 바뀌어 통째로 새로 받는다. */
-const V = "plan-d39c897d";
-const FILES = ["./", "index.html?v=d39c897d", "manifest.webmanifest?v=d39c897d", "icon-192.png", "icon-512.png", "font-ui.woff2?v=d39c897d", "font-head.woff2?v=d39c897d", "font-hand.woff2?v=d39c897d"];
+const V = "plan-8c831c9b";
+const FILES = ["./", "index.html?v=8c831c9b", "manifest.webmanifest?v=8c831c9b", "icon-192.png", "icon-512.png", "font-ui.woff2?v=8c831c9b", "font-head.woff2?v=8c831c9b", "font-hand.woff2?v=8c831c9b"];
 self.addEventListener("install", e => {
   self.skipWaiting();
   e.waitUntil(caches.open(V).then(c => c.addAll(FILES)).catch(() => {}));
