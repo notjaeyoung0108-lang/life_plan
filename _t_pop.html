@@ -391,6 +391,48 @@ input[type=password]{ width:100%; padding:10px 11px; border-radius:12px;
 <main id="app"></main>
 <div id="modal" hidden></div>
 <script>
+(function(){
+  var T = "2026-08-19";
+  function d(n){ var x=new Date(2026,7,19+n); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); }
+  var ev = {};
+  function E(id,cat,t,s,e,tm){ ev[id]={id:id,cat:cat,t:t,s:s,e:e||s,tm:tm||"",memo:"",upd:1}; }
+  E("a1","love","저녁 약속",d(0),d(0),"19:00");
+  E("a2","job","면접 준비 스터디",d(1),d(1),"20:00");
+  E("a3","jae","재영이 생일",d(3));
+  E("a4","resv","치과 예약",d(-2),d(-2),"14:30");
+  E("a5","work","월간 보고",d(-4),d(-4),"10:00");
+  E("a6","eun","은화 결혼식",d(9),d(9),"12:00");
+  E("a7","etc","경주 여행",d(5),d(8));
+  E("a8","work","현장 출장",d(-8),d(-6));
+  E("a9","job","자격증 원서 접수",d(2),d(2),"09:00");
+  E("a10","love","기념일",d(11));
+  E("a11","work","팀 회의",d(0),d(0),"15:00");
+  E("a12","etc","헬스장 등록",d(1));
+  var cells = {};
+  ["0700","0710","0720","0730","0740","0750"].forEach(function(s){ cells[s]="exer"; });
+  ["0900","0910","0920","0930","0940","0950","1000","1010","1020","1030"].forEach(function(s){ cells[s]="civil"; });
+  ["1400","1410","1420","1430","1440","1450","1500","1510"].forEach(function(s){ cells[s]="eng"; });
+  ["2000","2010","2020","2030","2040","2050","2100","2110","2120","2130","2140","2150"].forEach(function(s){ cells[s]="civil"; });
+  var doc = { v:1, ev:ev, ses:[{t:Date.now()-7200000,min:50,act:"civil",label:""}],
+    goal:[{id:"g1",n:"토목기사 필기",d:"2026-12-05",upd:1},{id:"g2",n:"영어 시험",d:"2026-10-10",upd:1}],
+    day:{} };
+  doc.day[T] = { goal:"오늘은 흐트러지지 않는다", memo:"오후에 집중이 떨어졌다. 내일은 아침에 어려운 것부터.",
+    focus:4, upd:2, cells:cells,
+    tasks:[{id:"t1",t:"토질 4장 강의 2개",act:"civil",done:true,h:3,ord:1,upd:1},
+           {id:"t2",t:"토질 4장 문제 20제",act:"civil",done:true,h:2,ord:2,upd:1},
+           {id:"t3",t:"영단어 100개 복습",act:"eng",done:false,h:1,ord:3,upd:1},
+           {id:"t4",t:"헬스 - 하체",act:"exer",done:true,h:3,ord:4,upd:1},
+           {id:"t5",t:"이력서 항목 정리",act:"other",done:false,h:0,ord:5,upd:1}] };
+  doc.day[d(-1)] = { goal:"", memo:"", focus:3, upd:2,
+    cells:{"0900":"civil","0910":"civil","0920":"civil","1900":"eng","1910":"eng","1920":"eng","1930":"eng"},
+    tasks:[{id:"u1",t:"수리학 3장",act:"civil",done:true,h:2,ord:1,upd:1}] };
+  doc.day[d(-2)] = { goal:"", memo:"", focus:0, upd:2,
+    cells:{"0600":"exer","0610":"exer","0620":"exer"}, tasks:[] };
+  localStorage.setItem("j0-plan-v1", JSON.stringify(doc));
+  localStorage.removeItem("j0-plan-timer");   /* 앞 촬영에서 남은 타이머 지우기 */
+})();
+</script>
+<script>
 /* ===== 00_util.js ===== */
 /* ── 분류·활동·날짜 잡동사니 ────────────────────────────────
    색은 여기 한 곳에서만 정한다. CSS 는 --c 변수로만 받아 쓴다. */
@@ -1812,4 +1854,6 @@ document.addEventListener("visibilitychange", function () {
   if (document.visibilityState === "visible") refresh();
 });
 
+</script><script>
+(function(){setTimeout(function(){try{popDay('2026-08-19')}catch(e){document.title='ERR '+e.message}},80)})();
 </script></body></html>
